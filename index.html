@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bananaball Guessing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>🍌 Bananaball Guessing Game 🍌</h1>
+    <p>Guess the mystery Bananaball Championship League player!</p>
+
+    <!-- 🟢 THIS BOX HANDLES YOUR SEARCH DROPDOWN MENU -->
+    <div class="input-container">
+        <input type="text" id="guessInput" list="playerList" placeholder="Type a player's name...">
+        <datalist id="playerList">
+            <!-- JavaScript dynamically inserts your entire roster pool here -->
+        </datalist>
+        <button id="submitBtn">Submit Guess</button>
+    </div>
+
+    <!-- The Grid where results will appear -->
+    <div id="gridContainer">
+        <!-- Guess rows are generated here dynamically -->
+    </div>
+
+    <!-- The Win/Loss Popup Window Container -->
+    <div id="endgameModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modalTitle">🎉 YOU WIN!</h2>
+            <p id="modalMessage">You guessed the mystery Bananaball player!</p>
+            <div class="modal-stats">
+                <span id="modalGuesses">Guesses: 0/6</span>
+            </div>
+            <div id="emojiResultDisplay"></div>
+            <button id="shareBtn">📋 Share Results</button>
+            <button id="closeModalBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- Link your game logic engine at the absolute bottom -->
+    <script src="app.js"></script>
+</body>
+</html>
