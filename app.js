@@ -445,24 +445,51 @@ function renderVisualStats(winningAttempt) {
 }
 
 // 🔍 Check player validation profiles instantly when the webpage finishes loading
-// 1. The locking function acts as the foundation
+// 🔒 Disable text field inputs and submit button if already played today
 function lockInputInterface() {
-    // ... items inside line 365 to 372 ...
+    const inputElement = document.getElementById('guessInput'); 
+    const submitButton = document.getElementById('submitBtn'); 
+
+    if (inputElement) {
+        inputElement.disabled = true;
+        inputElement.placeholder = "Come back tomorrow for a new player!";
+    }
+    
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.style.opacity = "0.5"; 
+        submitButton.innerText = "Locked Until Tomorrow";
+    }
 }
 
-// 2. The DOM loader can now safely read the locking code above it!
+// 🔍 Check player validation profiles instantly when the webpage finishes loading
 document.addEventListener('DOMContentLoaded', () => {
-    // ... date checks and midnight resets ...
+    const savedData = localStorage.getItem('bananaballStats');
+    if (savedData) {
+        gameStats = JSON.parse(savedData);
+    }
+
+    const lastPlayedDate = localStorage.getItem('bananaballLastPlayedDate');
+    const todayStr = new Date().toDateString();
+
+    if (lastPlayedDate === todayStr) {
+        setTimeout(() => {
+            lockInputInterface();
+            renderVisualStats();
+            startCountdownClock();
+        }, 500);
+    } else {
+        localStorage.removeItem('currentSessionGuesses'); 
+        const gridContainer = document.getElementById('gridContainer');
+        if (gridContainer) gridContainer.innerHTML = ''; 
+    }
 });
-
-// 3. Modal close click listener sits at the final line
-document.getElementById('closeStatsBtn').addEventListener('click', () => {
-    document.getElementById('statsModal').style.display = 'none';
-});
-
-
 
 // Modal closing event listener
-document.getElementById('closeStatsBtn').addEventListener('click', () => {
-    document.getElementById('statsModal').style.display = 'none';
-});
+const closeBtnElement = document.getElementById('closeStatsBtn');
+if (closeBtnElement) {
+    closeBtnElement.addEventListener('click', () => {
+        document.getElementById('statsModal').style.display = 'none';
+    });
+}
+
