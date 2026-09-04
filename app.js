@@ -445,24 +445,21 @@ function renderVisualStats(winningAttempt) {
 }
 
 // 🔍 Check player validation profiles instantly when the webpage finishes loading
-document.addEventListener('DOMContentLoaded', () => {
-    const lastPlayedDate = localStorage.getItem('bananaballLastPlayedDate');
-    const todayStr = new Date().toDateString();
+// 1. The locking function acts as the foundation
+function lockInputInterface() {
+    // ... items inside line 365 to 372 ...
+}
 
-    if (lastPlayedDate === todayStr) {
-        // 🔒 Player already ran their game loop today! Lock 'em out and display modal.
-        setTimeout(() => {
-            lockInputInterface();
-            renderVisualStats();
-            startCountdownClock();
-        }, 500);
-    } else {
-        // 🧹 IT IS A NEW DAY! Clear old guess boxes and reset board memory for a fresh game.
-        localStorage.removeItem('currentSessionGuesses'); 
-        const gridContainer = document.getElementById('gridContainer');
-        if (gridContainer) gridContainer.innerHTML = ''; 
-    }
+// 2. The DOM loader can now safely read the locking code above it!
+document.addEventListener('DOMContentLoaded', () => {
+    // ... date checks and midnight resets ...
 });
+
+// 3. Modal close click listener sits at the final line
+document.getElementById('closeStatsBtn').addEventListener('click', () => {
+    document.getElementById('statsModal').style.display = 'none';
+});
+
 
 
 // Modal closing event listener
