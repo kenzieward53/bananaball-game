@@ -450,14 +450,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const todayStr = new Date().toDateString();
 
     if (lastPlayedDate === todayStr) {
-        // Player already ran their game loop today! Lock 'em out and display modal.
+        // 🔒 Player already ran their game loop today! Lock 'em out and display modal.
         setTimeout(() => {
             lockInputInterface();
             renderVisualStats();
             startCountdownClock();
         }, 500);
+    } else {
+        // 🧹 IT IS A NEW DAY! Clear old guess boxes and reset board memory for a fresh game.
+        localStorage.removeItem('currentSessionGuesses'); 
+        const gridContainer = document.getElementById('gridContainer');
+        if (gridContainer) gridContainer.innerHTML = ''; 
     }
 });
+
 
 // Modal closing event listener
 document.getElementById('closeStatsBtn').addEventListener('click', () => {
