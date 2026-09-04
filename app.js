@@ -361,17 +361,25 @@ function saveGameOutcome(isWin, attemptsUsed) {
     localStorage.setItem('bananaballStats', JSON.stringify(gameStats));
     renderVisualStats(attemptsUsed);
     startCountdownClock();
-    lockInputInterface();
-}
-
-// 🔒 Disable text field inputs if already played today
+   // 🔒 Disable text field inputs and submit button if already played today
 function lockInputInterface() {
-    const inputElement = document.getElementById('guessInput');
+    const inputElement = document.getElementById('guessInput'); 
+    const submitButton = document.getElementById('submitBtn'); 
+
     if (inputElement) {
         inputElement.disabled = true;
         inputElement.placeholder = "Come back tomorrow for a new player!";
     }
+    
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.style.opacity = "0.5"; // Gray out the button visually
+        submitButton.innerText = "Locked Until Tomorrow";
+    }
 }
+
+    }
+
 
 // ⏰ Live countdown timer engine running down to midnight
 let countdownInterval;
