@@ -161,3 +161,93 @@ button:disabled {
 .hidden {
     display: none !important;
 }
+.instructions-container {
+    background-color: #fcf8e3;
+    border: 2px solid #faebcc;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+/* Stats Modal Popup Window */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #121213;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%; max-width: 450px;
+    text-align: center;
+    font-family: sans-serif;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.5);
+}
+
+/* Stat Box Matrix Layout */
+.stats-grid {
+    display: flex; justify-content: space-around;
+    margin: 20px 0;
+}
+
+.stat-box span {
+    font-size: 28px; font-weight: bold; display: block;
+}
+
+.stat-box p {
+    font-size: 10px; margin-top: 5px; color: #818384; margin-bottom: 0;
+}
+
+/* 📊 Bar Graph Row Alignment Fixes */
+.distribution-container {
+    text-align: left; 
+    margin: 20px auto;
+    width: 80%;
+}
+
+.graph-row {
+    display: flex; 
+    align-items: center; 
+    margin: 10px 0;
+    justify-content: flex-start;
+}
+
+.graph-row span {
+    width: 20px; 
+    font-weight: bold;
+    color: white;
+    text-align: left;
+}
+
+/* 🟩 The Actual Colored Bars */
+.bar {
+    background-color: #3a3a3c;
+    color: white !important; 
+    font-weight: bold; 
+    font-size: 14px;
+    text-align: right; 
+    padding: 4px 8px;
+    margin-left: 10px; 
+    min-width: 24px; 
+    width: 0%;
+    border-radius: 3px;
+    display: inline-block;
+    transition: width 0.5s ease;
+    box-sizing: border-box;
+}
+
+/* Highlight the winning attempt bar green */
+.bar.winner {
+    background-color: #538d4e !important;
+}
+
+.close-btn {
+    background-color: #538d4e; border: none; color: white;
+    padding: 10px 30px; font-size: 16px; border-radius: 4px;
+    cursor: pointer; margin-top: 20px; font-weight: bold;
+}
+
