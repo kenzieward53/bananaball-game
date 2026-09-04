@@ -208,9 +208,11 @@ function processGuess() {
     if (guessedPlayer.name.toLowerCase().trim() === secretPlayer.name.toLowerCase().trim()) {
         setTimeout(() => {
             showEndgameModal(true);
+            saveGameOutcome(true, guessCount);
         }, 1200); // 1.2 second slight delay so you can watch the boxes flip to green first!
     } else if (guessCount >= maxGuesses) {
         setTimeout(() => {
+            saveGameOutcome(false, 0);
             showEndgameModal(false);
         }, 1200);
     }
@@ -327,3 +329,65 @@ if (document.getElementById("shareBtn")) {
         });
     });
 }
+// Initialize local data object structure if nothing exists in browser memory
+let gameStats = JSON.parse(localStorage.getItem('bananaballStats')) || {
+    played: 0,
+    won: 0,
+    currentStreak: 0,
+    maxStreak: 0,
+    distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
+};
+
+// Main scoring engine function to process outcome conditions
+function saveGameOutcome(isWin, attemptsUsed) {
+    gameStats.played++;
+    if (isWin) {
+        gameStats.won++;
+        gameStats.currentStreak++;
+        gameStats.distribution[attemptsUsed]++;
+        if (gameStats.currentStreak > gameStats.maxStreak) {
+            gameStats.maxStreak = gameStats.currentStreak;
+        }
+    } else {
+        gameStats.currentStreak = 0;
+    }
+    // Commit adjustments directly to the local storage engine
+    localStorage.setItem('bananaballStats', JSON.stringify(gameStats));
+    renderVisualStats(attemptsUsed);
+}
+
+// Dynamically scale graph components and print text nodes
+function renderVisualStats(winningAttempt) {
+    document.getElementById('stat-played').innerText = gameStats.played;
+    const winPercentage = gameStats.played ? Math.round((gameStats.won / gameStats.played) * 100) : 0;
+    document.getElementById('stat-winpct').innerText = winPercentage;
+    document.getElementById('stat-current').innerText = gameStats.currentStreak;
+    document.getElementById('stat-max').innerText = gameStats.maxStreak;
+
+    // Dynamically calculate individual row widths based on the maximum frequency value
+    const maxDistributionValue = Math.max(...Object.values(gameStats.distribution), 1);
+
+    for (let i = 1; i <= 6; i++) {
+        const barElement = document.getElementById(`bar-${i}`);
+        const countValue = gameStats.distribution[i];
+        barElement.innerText = countValue;
+        
+        // Scale percentage layout width mathematically
+        const scaledPercentage = (countValue / maxDistributionValue) * 100;
+        barElement.style.width = countValue > 0 ? `${scaledPercentage}%` : '20px';
+        
+        // Highlight active winning row container explicitly
+        if (i === winningAttempt) {
+            barElement.classList.add('winner');
+        } else {
+            barElement.classList.remove('winner');
+        }
+    }
+    // Set style display status active
+    document.getElementById('statsModal').style.display = 'flex';
+}
+
+// Modal closing event listeners
+document.getElementById('closeStatsBtn').addEventListener('click', () => {
+    document.getElementById('statsModal').style.display = 'none';
+});
