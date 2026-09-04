@@ -52,6 +52,33 @@
             <button id="closeModalBtn">Close</button>
         </div>
     </div>
+<!-- 📊 GAME STATISTICS MODAL BOX -->
+<div id="statsModal" class="modal">
+    <div class="modal-content">
+        <h2>STATISTICS</h2>
+        
+        <!-- Grid Numbers Matrix -->
+        <div class="stats-grid">
+            <div class="stat-box"><span id="stat-played">0</span><p>PLAYED</p></div>
+            <div class="stat-box"><span id="stat-winpct">0</span><p>WIN %</p></div>
+            <div class="stat-box"><span id="stat-current">0</span><p>ACTIVE STREAK</p></div>
+            <div class="stat-box"><span id="stat-max">0</span><p>MAX STREAK</p></div>
+        </div>
+
+        <h2>GUESS DISTRIBUTION</h2>
+        <!-- Horizontal Flex-Bar Graph Container -->
+        <div class="distribution-container">
+            <div class="graph-row"><span>1</span><div class="bar" id="bar-1">0</div></div>
+            <div class="graph-row"><span>2</span><div class="bar" id="bar-2">0</div></div>
+            <div class="graph-row"><span>3</span><div class="bar" id="bar-3">0</div></div>
+            <div class="graph-row"><span>4</span><div class="bar" id="bar-4">0</div></div>
+            <div class="graph-row"><span>5</span><div class="bar" id="bar-5">0</div></div>
+            <div class="graph-row"><span>6</span><div class="bar" id="bar-6">0</div></div>
+        </div>
+        
+        <button id="closeStatsBtn" class="close-btn">Close</button>
+    </div>
+</div>
 
     <!-- Link your game logic engine at the absolute bottom -->
     <script src="app.js"></script>
