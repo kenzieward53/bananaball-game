@@ -339,6 +339,7 @@ let gameStats = JSON.parse(localStorage.getItem('bananaballStats')) || {
 };
 
 // Main scoring engine function to process outcome conditions
+// Main scoring engine function to process outcome conditions
 function saveGameOutcome(isWin, attemptsUsed) {
     gameStats.played++;
     if (isWin) {
@@ -351,12 +352,64 @@ function saveGameOutcome(isWin, attemptsUsed) {
     } else {
         gameStats.currentStreak = 0;
     }
+
+    // 🔒 LOCK IN TODAY'S DATE SO THEY CANNOT REPLAY
+    const todayStr = new Date().toDateString();
+    localStorage.setItem('bananaballLastPlayedDate', todayStr);
+
     // Commit adjustments directly to the local storage engine
     localStorage.setItem('bananaballStats', JSON.stringify(gameStats));
     renderVisualStats(attemptsUsed);
+    startCountdownClock();
+    lockInputInterface();
 }
 
-// Dynamically scale graph components and print text nodes
+// 🔒 Disable text field inputs if already played today
+function lockInputInterface() {
+    const inputElement = document.getElementById('guessInput');
+    if (inputElement) {
+        inputElement.disabled = true;
+        inputElement.placeholder = "Come back tomorrow for a new player!";
+    }
+}
+
+// ⏰ Live countdown timer engine running down to midnight
+let countdownInterval;
+function startCountdownClock() {
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    const timerDisplay = document.getElementById('countdown-timer');
+    
+    function updateClock() {
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0); // Sets time marker directly to 12:00 AM tomorrow
+
+        const timeDiff = midnight - now;
+
+        if (timeDiff <= 0) {
+            clearInterval(countdownInterval);
+            if (timerDisplay) timerDisplay.innerText = "00:00:00";
+            // Automatically lift restrictions when midnight rolls over
+            localStorage.removeItem('bananaballLastPlayedDate');
+            location.reload();
+            return;
+        }
+
+        const hours = String(Math.floor((timeDiff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+        const minutes = String(Math.floor((timeDiff / (1000 * 60)) % 60)).padStart(2, '0');
+        const seconds = String(Math.floor((timeDiff / 1000) % 60)).padStart(2, '0');
+
+        if (timerDisplay) {
+            timerDisplay.innerText = `${hours}:${minutes}:${seconds}`;
+        }
+    }
+
+    updateClock();
+    countdownInterval = setInterval(updateClock, 1000);
+}
+
+// 🍿 Dynamically scale graph components and print text nodes
 function renderVisualStats(winningAttempt) {
     document.getElementById('stat-played').innerText = gameStats.played;
     const winPercentage = gameStats.played ? Math.round((gameStats.won / gameStats.played) * 100) : 0;
@@ -364,7 +417,6 @@ function renderVisualStats(winningAttempt) {
     document.getElementById('stat-current').innerText = gameStats.currentStreak;
     document.getElementById('stat-max').innerText = gameStats.maxStreak;
 
-    // Dynamically calculate individual row widths based on the maximum frequency value
     const maxDistributionValue = Math.max(...Object.values(gameStats.distribution), 1);
 
     for (let i = 1; i <= 6; i++) {
@@ -372,22 +424,34 @@ function renderVisualStats(winningAttempt) {
         const countValue = gameStats.distribution[i];
         barElement.innerText = countValue;
         
-        // Scale percentage layout width mathematically
         const scaledPercentage = (countValue / maxDistributionValue) * 100;
-        barElement.style.width = countValue > 0 ? `${scaledPercentage}%` : '20px';
+        barElement.style.width = countValue > 0 ? `${scaledPercentage}%` : '24px';
         
-        // Highlight active winning row container explicitly
         if (i === winningAttempt) {
             barElement.classList.add('winner');
         } else {
             barElement.classList.remove('winner');
         }
     }
-    // Set style display status active
     document.getElementById('statsModal').style.display = 'flex';
 }
 
-// Modal closing event listeners
+// 🔍 Check player validation profiles instantly when the webpage finishes loading
+document.addEventListener('DOMContentLoaded', () => {
+    const lastPlayedDate = localStorage.getItem('bananaballLastPlayedDate');
+    const todayStr = new Date().toDateString();
+
+    if (lastPlayedDate === todayStr) {
+        // Player already ran their game loop today! Lock 'em out and display modal.
+        setTimeout(() => {
+            lockInputInterface();
+            renderVisualStats();
+            startCountdownClock();
+        }, 500);
+    }
+});
+
+// Modal closing event listener
 document.getElementById('closeStatsBtn').addEventListener('click', () => {
     document.getElementById('statsModal').style.display = 'none';
 });
