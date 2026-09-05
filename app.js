@@ -151,7 +151,7 @@ const players = [
   { name: "Ashby Vining", team: "Loco Beach Coconuts", position: "Catcher", jersey: 11, hand: "R", state: "SC" },
   { name: "Keegan James", team: "Loco Beach Coconuts", position: "Pitcher", jersey: 12, hand: "R", state: "MS" },
   { name: "Dalton Mauldin", team: "Loco Beach Coconuts", position: "Utility", jersey: 13, hand: "R", state: "FL" },
-  { name: "Jorden Brewer", team: "Loco Beach Coconuts", position: "Utility", jersey: 15, hand: "R", state: "MI" },
+  { name: "Jordan Brewer", team: "Loco Beach Coconuts", position: "Utility", jersey: 15, hand: "R", state: "MI" },
   { name: "Blake Benson", team: "Loco Beach Coconuts", position: "Utility", jersey: 17, hand: "L", state: "AR" },
   { name: "Gideon Antle", team: "Loco Beach Coconuts", position: "Outfield", jersey: 18, hand: "R", state: "MO" },
   { name: "Zach Smith", team: "Loco Beach Coconuts", position: "Pitcher", jersey: 19, hand: "R", state: "TX" },
