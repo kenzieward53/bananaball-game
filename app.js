@@ -34,7 +34,7 @@ const players = [
   { name: "Ashton Lansdell", team: "Party Animals", position: "Infield", jersey: 1, hand: "R", state: "GA" },
   { name: "Jason Swan", team: "Party Animals", position: "Infield", jersey: 2, hand: "R", state: "FL" },
   { name: "TJ Reeves", team: "Party Animals", position: "Outfield", jersey: 3, hand: "R", state: "AL" },
-  { name: "Tanner Thomas", team: "Party Animals", position: "Infield", jersey: 4, hand: "R", state: "FL" },
+  { name: "Tanner Thomas", team: "Party Animals", position: "Outfield", jersey: 4, hand: "R", state: "FL" },
   { name: "Andy Cosgrove", team: "Party Animals", position: "Catcher", jersey: 5, hand: "R", state: "WA" },
   { name: "Reece Hampton", team: "Party Animals", position: "Outfield", jersey: 6, hand: "R", state: "NC" },
   { name: "Bryson Bloomer", team: "Party Animals", position: "Infield", jersey: 8, hand: "R", state: "KY" },
