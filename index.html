@@ -14,7 +14,7 @@
 <div class="instructions-container">
     <h3>How To Play:</h3>
     <ul>
-        <li>You have <strong>6 attempts</strong> to guess the mystery player.</li>
+        <li>You have <strong>8 attempts</strong> to guess the mystery player.</li>
         <li>🟩 <strong>Green Box:</strong> Perfect match! You found the correct trait.</li>
         <li>🟨 <strong>Yellow Box:</strong> Partial match. For jerseys, it means the number is within 5 digits.</li>
         <li>⬛ <strong>Gray Box:</strong> Completely incorrect trait.</li>
@@ -75,7 +75,12 @@
             <div class="graph-row"><span>5</span><div class="bar" id="bar-5">0</div></div>
             <div class="graph-row"><span>6</span><div class="bar" id="bar-6">0</div></div>
         </div>
-        
+                <!-- ⏰ NEXT PLAYER COUNTDOWN CLOCK -->
+        <div id="countdown-container" style="margin: 20px 0; font-family: sans-serif;">
+            <p style="color: #818384; font-size: 12px; margin-bottom: 5px;">NEXT BANANABALL PLAYER IN</p>
+            <h2 id="countdown-timer" style="margin: 0; color: #538d4e; font-size: 24px; font-weight: bold;">00:00:00</h2>
+        </div>
+
         <button id="closeStatsBtn" class="close-btn">Close</button>
     </div>
 </div>
