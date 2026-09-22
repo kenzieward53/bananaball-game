@@ -185,12 +185,17 @@ function initializeSearchDropdown() {
 // SECTION 3: THE GUESS MATCH & COLOR ROW CREATOR
 // ==================================================
 let guessCount = 0;
-const maxGuesses = 6;
+const maxGuesses = 8;
 let allEmojiRows = []; // <--- Single clean declaration
 
 document.getElementById("submitBtn").addEventListener("click", processGuess);
 
 function processGuess() {
+        if (guessCount >= maxGuesses) {
+        alert("You have already used all your guesses for today!");
+        lockInputInterface();
+        return;
+    }
     const input = document.getElementById("guessInput");
     const guessName = input.value.trim();
     const guessedPlayer = players.find(p => p.name.toLowerCase() === guessName.toLowerCase());
@@ -212,7 +217,7 @@ function processGuess() {
         }, 1200); // 1.2 second slight delay so you can watch the boxes flip to green first!
     } else if (guessCount >= maxGuesses) {
         setTimeout(() => {
-            saveGameOutcome(false, 0);
+            saveGameOutcome(false, guessCount);
             showEndgameModal(false);
         }, 1200);
     }
